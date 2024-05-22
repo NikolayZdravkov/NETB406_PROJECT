@@ -41,11 +41,14 @@ public class Main {
             System.out.println("Receipt created and saved: " + receipt);
         }
 
-        // Read a receipt from file (assuming the id is 1 for this example)
+
         Receipt savedReceipt = Receipt.readFromFile(1);
         if (savedReceipt != null) {
             System.out.println("Receipt read from file: " + savedReceipt);
         }
+
+
+        Receipt.readFromTextFile(1);
 
         // Print total receipts and total sales value
         System.out.println("Total receipts created: " + Receipt.getTotalReceipts());

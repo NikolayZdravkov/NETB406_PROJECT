@@ -28,6 +28,7 @@ public class Receipt implements Serializable {
         totalSalesValue += totalValue;
 
         saveToFile();
+        saveAsText();
     }
 
     public int getId() {
@@ -73,10 +74,45 @@ public class Receipt implements Serializable {
         }
     }
 
+    private void saveAsText() {
+        String directoryPath = "receipts";
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(directoryPath + "/" + id + ".txt"))) {
+            writer.write("Receipt ID: " + id + "\n");
+            writer.write("Cashier: " + cashier.getName() + "\n");
+            writer.write("Date and Time: " + dateTime + "\n");
+            writer.write("Items:\n");
+            for (ReceiptItem item : items) {
+                writer.write("  - " + item.getGoods().getName() + ", Quantity: " + item.getQuantity() + ", Price: " + item.getPrice() + "\n");
+            }
+            writer.write("Total Value: " + totalValue + "\n");
+            System.out.println("Receipt text file saved to: " + directory.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Receipt readFromFile(int id) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("receipts/" + id + ".ser"))) {
             return (Receipt) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Receipt readFromTextFile(int id) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("receipts/" + id + ".txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            return null;  // This is just for demonstration purposes. You might want to parse and return a Receipt object.
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -93,6 +129,7 @@ public class Receipt implements Serializable {
                 '}';
     }
 }
+
 
 
 
