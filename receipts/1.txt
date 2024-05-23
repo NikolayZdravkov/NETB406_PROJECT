@@ -1,0 +1,7 @@
+Receipt ID: 1
+Cashier: John Doe
+Date and Time: 2024-05-23T21:07:20.213688600
+Items:
+  - Apple, Quantity: 1, Price: 1.0
+  - Shampoo, Quantity: 1, Price: 5.0
+Total Value: 6.0
